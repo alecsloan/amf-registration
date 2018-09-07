@@ -3,14 +3,12 @@
 <model-hints>
 	<model name="com.liferay.amf.eventmonitor.model.Tracker">
 		<field name="uuid" type="String" />
-		<field name="userTrackerId" type="long" />
+		<field name="auditEventId" type="long" />
 		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
 		<field name="userId" type="long" />
-		<field name="screenName" type="String" />
-		<field name="modifiedDate" type="Date" />
-		<field name="sessionId" type="String" />
-		<field name="remoteAddr" type="String" />
-		<field name="RemoteHost" type="String" />
-		<field name="userAgent" type="String" />
+		<field name="userName" type="String" />
+		<field name="clientIP" type="String" />
+		<field name="eventType" type="String" />
 	</model>
 </model-hints>

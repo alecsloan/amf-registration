@@ -14,7 +14,19 @@
 
 package com.liferay.amf.eventmonitor.service.impl;
 
+import com.liferay.amf.eventmonitor.model.Tracker;
+import com.liferay.amf.eventmonitor.service.TrackerLocalServiceUtil;
 import com.liferay.amf.eventmonitor.service.base.TrackerLocalServiceBaseImpl;
+import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the tracker local service.
@@ -32,8 +44,56 @@ import com.liferay.amf.eventmonitor.service.base.TrackerLocalServiceBaseImpl;
  */
 public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 	
-	public String addTracker() {
-		return "test";
+	public List<Tracker> getEvents(String eventType) throws SQLException {
+		Connection conn = DataAccess.getConnection();
+
+		Statement stmt = conn.createStatement();
+
+		String sql = "SELECT * FROM lportal.Audit_AuditEvent where eventType in (" + eventType + ") AND className = 'com.liferay.portal.kernel.model.User'";
+    
+		ResultSet rs = stmt.executeQuery(sql);
 		
+		List<Tracker> eventList = new ArrayList<>();
+		Tracker event = null;
+		
+		while (rs.next()) {
+			event = TrackerLocalServiceUtil.createTracker(rs.getLong("auditEventId"));
+			
+			if (rs.getLong("userID") == 0) {
+				HashMap<String, String> newUser = stringToHash(rs.getString("additionalInfo"));
+				
+				event.setUserId(Long.parseLong(newUser.get("userId")));
+				event.setUserName(newUser.get("userName"));
+				event.setEventType("REGISTRATION");
+				event.setClientIP("0.0.0.0");
+				
+			}else {
+				event.setUserId(rs.getLong("userId"));
+				event.setUserName(rs.getString("userName"));
+				event.setEventType(rs.getString("eventType"));
+				event.setClientIP(rs.getString("clientIP"));
+			
+			}
+			event.setCompanyId(rs.getLong("companyId"));
+			event.setCreateDate(rs.getDate("createDate"));
+			
+			eventList.add(event);
+		}
+		
+		return eventList;
+	}
+	
+	private HashMap<String, String> stringToHash(String s){
+		s = s.replaceAll("[{}\"]","");
+		String[] keyValuePairs = s.split(",");
+		HashMap<String,String> newUser = new HashMap<String, String>(); 
+
+		for(String pair : keyValuePairs)                        
+		{
+		    String[] entry = pair.split(":");
+		    newUser.put(entry[0], entry[1]);    
+		}
+		
+		return newUser;
 	}
 }

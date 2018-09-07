@@ -231,18 +231,17 @@ public class TrackerUtil {
 	/**
 	* Returns the trackers before and after the current tracker in the ordered set where uuid = &#63;.
 	*
-	* @param userTrackerId the primary key of the current tracker
+	* @param auditEventId the primary key of the current tracker
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public static Tracker[] findByUuid_PrevAndNext(long userTrackerId,
+	public static Tracker[] findByUuid_PrevAndNext(long auditEventId,
 		java.lang.String uuid, OrderByComparator<Tracker> orderByComparator)
 		throws com.liferay.amf.eventmonitor.exception.NoSuchTrackerException {
 		return getPersistence()
-				   .findByUuid_PrevAndNext(userTrackerId, uuid,
-			orderByComparator);
+				   .findByUuid_PrevAndNext(auditEventId, uuid, orderByComparator);
 	}
 
 	/**
@@ -401,19 +400,19 @@ public class TrackerUtil {
 	/**
 	* Returns the trackers before and after the current tracker in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param userTrackerId the primary key of the current tracker
+	* @param auditEventId the primary key of the current tracker
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public static Tracker[] findByUuid_C_PrevAndNext(long userTrackerId,
+	public static Tracker[] findByUuid_C_PrevAndNext(long auditEventId,
 		java.lang.String uuid, long companyId,
 		OrderByComparator<Tracker> orderByComparator)
 		throws com.liferay.amf.eventmonitor.exception.NoSuchTrackerException {
 		return getPersistence()
-				   .findByUuid_C_PrevAndNext(userTrackerId, uuid, companyId,
+				   .findByUuid_C_PrevAndNext(auditEventId, uuid, companyId,
 			orderByComparator);
 	}
 
@@ -459,23 +458,23 @@ public class TrackerUtil {
 	/**
 	* Creates a new tracker with the primary key. Does not add the tracker to the database.
 	*
-	* @param userTrackerId the primary key for the new tracker
+	* @param auditEventId the primary key for the new tracker
 	* @return the new tracker
 	*/
-	public static Tracker create(long userTrackerId) {
-		return getPersistence().create(userTrackerId);
+	public static Tracker create(long auditEventId) {
+		return getPersistence().create(auditEventId);
 	}
 
 	/**
 	* Removes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker that was removed
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public static Tracker remove(long userTrackerId)
+	public static Tracker remove(long auditEventId)
 		throws com.liferay.amf.eventmonitor.exception.NoSuchTrackerException {
-		return getPersistence().remove(userTrackerId);
+		return getPersistence().remove(auditEventId);
 	}
 
 	public static Tracker updateImpl(Tracker tracker) {
@@ -485,23 +484,23 @@ public class TrackerUtil {
 	/**
 	* Returns the tracker with the primary key or throws a {@link NoSuchTrackerException} if it could not be found.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public static Tracker findByPrimaryKey(long userTrackerId)
+	public static Tracker findByPrimaryKey(long auditEventId)
 		throws com.liferay.amf.eventmonitor.exception.NoSuchTrackerException {
-		return getPersistence().findByPrimaryKey(userTrackerId);
+		return getPersistence().findByPrimaryKey(auditEventId);
 	}
 
 	/**
 	* Returns the tracker with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker, or <code>null</code> if a tracker with the primary key could not be found
 	*/
-	public static Tracker fetchByPrimaryKey(long userTrackerId) {
-		return getPersistence().fetchByPrimaryKey(userTrackerId);
+	public static Tracker fetchByPrimaryKey(long auditEventId) {
+		return getPersistence().fetchByPrimaryKey(auditEventId);
 	}
 
 	public static java.util.Map<java.io.Serializable, Tracker> fetchByPrimaryKeys(

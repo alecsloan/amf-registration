@@ -7,4 +7,5 @@ dependencies {
 	compileOnly group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
 	
 	compileOnly project(":modules:amf-event-monitor:amf-event-monitor-api")
+	compileOnly project(":modules:amf-event-monitor:amf-event-monitor-service")
 }

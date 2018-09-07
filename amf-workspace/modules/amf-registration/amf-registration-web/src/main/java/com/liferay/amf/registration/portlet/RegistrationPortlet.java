@@ -3,6 +3,7 @@ package com.liferay.amf.registration.portlet;
 import com.liferay.amf.registration.constants.RegistrationPortletKeys;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.exception.PhoneNumberException;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Contact;
@@ -53,14 +54,12 @@ public class RegistrationPortlet extends MVCPortlet {
 	public Map<String,String> getStates() {
 		Map<String,String> states = new HashMap<String,String>();
 		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lportal?verifyServerCertificate=false&useSSL=true", "root", "root");
+		try {		
+			Connection conn = DataAccess.getConnection();
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "select name, regionId from region where countryId = 19";
+			String sql = "SELECT name, regionID FROM lportal.Region where countryID=19";
         
 			ResultSet rs = stmt.executeQuery(sql);
 			
@@ -118,10 +117,8 @@ public class RegistrationPortlet extends MVCPortlet {
 			accepted_tou = fieldValid("accepted_tou", req.getParameter("accepted_tou")) ? true : false;
 
 			//Parse non-required fields only if they have values
-			if (req.getParameter("home_phone").matches("[0-9]+")) 
-				home_phone = fieldValid("home_phone", req.getParameter("home_phone")) ? req.getParameter("home_phone") : "";
-			else
-				errors.put("home_phone","Phone number must be numeric");
+			home_phone = fieldValid("home_phone", req.getParameter("home_phone")) ? req.getParameter("home_phone") : "";
+			
 			
 			if (req.getParameter("mobile_phone").matches("[0-9]+"))
 				mobile_phone = fieldValid("mobile_phone", req.getParameter("mobile_phone")) ? req.getParameter("mobile_phone") : "";
@@ -264,13 +261,11 @@ public class RegistrationPortlet extends MVCPortlet {
 		
 		private Boolean uniqueUsername (String username, String email_address) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lportal?verifyServerCertificate=false&useSSL=true", "root", "root");
+				Connection conn = DataAccess.getConnection();
 
 				Statement stmt = conn.createStatement();
 
-				String sql = "select count(*) as userExists from user_ where screenName = '" + username + "' or emailAddress = '" + email_address + "'";
+				String sql = "select count(*) as userExists from User_ where screenName = '" + username + "' or emailAddress = '" + email_address + "'";
 	    
 				ResultSet rs = stmt.executeQuery(sql);
 		
@@ -302,7 +297,7 @@ public class RegistrationPortlet extends MVCPortlet {
 	    }
 	    
 	    //If there are no errors after validation we can create the user in our system
-	    if (user.errors.size() == 0) {
+	    if (user.errors.size() == 0 || user.errors.containsKey("home_phone")) {
 	    	//Try to Insert user to user table
 	    	Boolean userCreated = insertUser(user, PortalUtil.getCompanyId(actionRequest), PortalUtil.getLocale(actionRequest));
 	    	

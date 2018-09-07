@@ -1,12 +1,21 @@
+create table EventMonitor_Event (
+	uuid_ VARCHAR(75) null,
+	auditEventId LONG not null primary key,
+	companyId LONG,
+	createDate DATE null,
+	userId LONG,
+	userName VARCHAR(75) null,
+	clientIP VARCHAR(75) null,
+	eventType VARCHAR(75) null
+);
+
 create table EventMonitor_Tracker (
 	uuid_ VARCHAR(75) null,
-	userTrackerId LONG not null primary key,
+	auditEventId LONG not null primary key,
 	companyId LONG,
+	createDate DATE null,
 	userId LONG,
-	screenName VARCHAR(75) null,
-	modifiedDate DATE null,
-	sessionId VARCHAR(75) null,
-	remoteAddr VARCHAR(75) null,
-	RemoteHost VARCHAR(75) null,
-	userAgent VARCHAR(75) null
+	userName VARCHAR(75) null,
+	clientIP VARCHAR(75) null,
+	eventType VARCHAR(75) null
 );

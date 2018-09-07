@@ -58,15 +58,13 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("userTrackerId", getUserTrackerId());
+		attributes.put("auditEventId", getAuditEventId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("createDate", getCreateDate());
 		attributes.put("userId", getUserId());
-		attributes.put("screenName", getScreenName());
-		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("sessionId", getSessionId());
-		attributes.put("remoteAddr", getRemoteAddr());
-		attributes.put("RemoteHost", getRemoteHost());
-		attributes.put("userAgent", getUserAgent());
+		attributes.put("userName", getUserName());
+		attributes.put("clientIP", getClientIP());
+		attributes.put("eventType", getEventType());
 
 		return attributes;
 	}
@@ -79,10 +77,10 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 			setUuid(uuid);
 		}
 
-		Long userTrackerId = (Long)attributes.get("userTrackerId");
+		Long auditEventId = (Long)attributes.get("auditEventId");
 
-		if (userTrackerId != null) {
-			setUserTrackerId(userTrackerId);
+		if (auditEventId != null) {
+			setAuditEventId(auditEventId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -91,46 +89,34 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 			setCompanyId(companyId);
 		}
 
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
 		Long userId = (Long)attributes.get("userId");
 
 		if (userId != null) {
 			setUserId(userId);
 		}
 
-		String screenName = (String)attributes.get("screenName");
+		String userName = (String)attributes.get("userName");
 
-		if (screenName != null) {
-			setScreenName(screenName);
+		if (userName != null) {
+			setUserName(userName);
 		}
 
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
+		String clientIP = (String)attributes.get("clientIP");
 
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
+		if (clientIP != null) {
+			setClientIP(clientIP);
 		}
 
-		String sessionId = (String)attributes.get("sessionId");
+		String eventType = (String)attributes.get("eventType");
 
-		if (sessionId != null) {
-			setSessionId(sessionId);
-		}
-
-		String remoteAddr = (String)attributes.get("remoteAddr");
-
-		if (remoteAddr != null) {
-			setRemoteAddr(remoteAddr);
-		}
-
-		String RemoteHost = (String)attributes.get("RemoteHost");
-
-		if (RemoteHost != null) {
-			setRemoteHost(RemoteHost);
-		}
-
-		String userAgent = (String)attributes.get("userAgent");
-
-		if (userAgent != null) {
-			setUserAgent(userAgent);
+		if (eventType != null) {
+			setEventType(eventType);
 		}
 	}
 
@@ -190,53 +176,33 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	}
 
 	/**
-	* Returns the remote addr of this tracker.
+	* Returns the client ip of this tracker.
 	*
-	* @return the remote addr of this tracker
+	* @return the client ip of this tracker
 	*/
 	@Override
-	public java.lang.String getRemoteAddr() {
-		return _tracker.getRemoteAddr();
+	public java.lang.String getClientIP() {
+		return _tracker.getClientIP();
 	}
 
 	/**
-	* Returns the remote host of this tracker.
+	* Returns the event type of this tracker.
 	*
-	* @return the remote host of this tracker
+	* @return the event type of this tracker
 	*/
 	@Override
-	public java.lang.String getRemoteHost() {
-		return _tracker.getRemoteHost();
+	public java.lang.String getEventType() {
+		return _tracker.getEventType();
 	}
 
 	/**
-	* Returns the screen name of this tracker.
+	* Returns the user name of this tracker.
 	*
-	* @return the screen name of this tracker
+	* @return the user name of this tracker
 	*/
 	@Override
-	public java.lang.String getScreenName() {
-		return _tracker.getScreenName();
-	}
-
-	/**
-	* Returns the session ID of this tracker.
-	*
-	* @return the session ID of this tracker
-	*/
-	@Override
-	public java.lang.String getSessionId() {
-		return _tracker.getSessionId();
-	}
-
-	/**
-	* Returns the user agent of this tracker.
-	*
-	* @return the user agent of this tracker
-	*/
-	@Override
-	public java.lang.String getUserAgent() {
-		return _tracker.getUserAgent();
+	public java.lang.String getUserName() {
+		return _tracker.getUserName();
 	}
 
 	/**
@@ -270,13 +236,23 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	}
 
 	/**
-	* Returns the modified date of this tracker.
+	* Returns the create date of this tracker.
 	*
-	* @return the modified date of this tracker
+	* @return the create date of this tracker
 	*/
 	@Override
-	public Date getModifiedDate() {
-		return _tracker.getModifiedDate();
+	public Date getCreateDate() {
+		return _tracker.getCreateDate();
+	}
+
+	/**
+	* Returns the audit event ID of this tracker.
+	*
+	* @return the audit event ID of this tracker
+	*/
+	@Override
+	public long getAuditEventId() {
+		return _tracker.getAuditEventId();
 	}
 
 	/**
@@ -309,24 +285,34 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 		return _tracker.getUserId();
 	}
 
-	/**
-	* Returns the user tracker ID of this tracker.
-	*
-	* @return the user tracker ID of this tracker
-	*/
-	@Override
-	public long getUserTrackerId() {
-		return _tracker.getUserTrackerId();
-	}
-
 	@Override
 	public void persist() {
 		_tracker.persist();
 	}
 
+	/**
+	* Sets the audit event ID of this tracker.
+	*
+	* @param auditEventId the audit event ID of this tracker
+	*/
+	@Override
+	public void setAuditEventId(long auditEventId) {
+		_tracker.setAuditEventId(auditEventId);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_tracker.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the client ip of this tracker.
+	*
+	* @param clientIP the client ip of this tracker
+	*/
+	@Override
+	public void setClientIP(java.lang.String clientIP) {
+		_tracker.setClientIP(clientIP);
 	}
 
 	/**
@@ -337,6 +323,26 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_tracker.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this tracker.
+	*
+	* @param createDate the create date of this tracker
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_tracker.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the event type of this tracker.
+	*
+	* @param eventType the event type of this tracker
+	*/
+	@Override
+	public void setEventType(java.lang.String eventType) {
+		_tracker.setEventType(eventType);
 	}
 
 	@Override
@@ -353,16 +359,6 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_tracker.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the modified date of this tracker.
-	*
-	* @param modifiedDate the modified date of this tracker
-	*/
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_tracker.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -386,56 +382,6 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	}
 
 	/**
-	* Sets the remote addr of this tracker.
-	*
-	* @param remoteAddr the remote addr of this tracker
-	*/
-	@Override
-	public void setRemoteAddr(java.lang.String remoteAddr) {
-		_tracker.setRemoteAddr(remoteAddr);
-	}
-
-	/**
-	* Sets the remote host of this tracker.
-	*
-	* @param RemoteHost the remote host of this tracker
-	*/
-	@Override
-	public void setRemoteHost(java.lang.String RemoteHost) {
-		_tracker.setRemoteHost(RemoteHost);
-	}
-
-	/**
-	* Sets the screen name of this tracker.
-	*
-	* @param screenName the screen name of this tracker
-	*/
-	@Override
-	public void setScreenName(java.lang.String screenName) {
-		_tracker.setScreenName(screenName);
-	}
-
-	/**
-	* Sets the session ID of this tracker.
-	*
-	* @param sessionId the session ID of this tracker
-	*/
-	@Override
-	public void setSessionId(java.lang.String sessionId) {
-		_tracker.setSessionId(sessionId);
-	}
-
-	/**
-	* Sets the user agent of this tracker.
-	*
-	* @param userAgent the user agent of this tracker
-	*/
-	@Override
-	public void setUserAgent(java.lang.String userAgent) {
-		_tracker.setUserAgent(userAgent);
-	}
-
-	/**
 	* Sets the user ID of this tracker.
 	*
 	* @param userId the user ID of this tracker
@@ -446,13 +392,13 @@ public class TrackerWrapper implements Tracker, ModelWrapper<Tracker> {
 	}
 
 	/**
-	* Sets the user tracker ID of this tracker.
+	* Sets the user name of this tracker.
 	*
-	* @param userTrackerId the user tracker ID of this tracker
+	* @param userName the user name of this tracker
 	*/
 	@Override
-	public void setUserTrackerId(long userTrackerId) {
-		_tracker.setUserTrackerId(userTrackerId);
+	public void setUserName(java.lang.String userName) {
+		_tracker.setUserName(userName);
 	}
 
 	/**

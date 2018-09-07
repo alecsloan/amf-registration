@@ -79,18 +79,18 @@ public interface TrackerModel extends BaseModel<Tracker>, ShardedModel {
 	public void setUuid(String uuid);
 
 	/**
-	 * Returns the user tracker ID of this tracker.
+	 * Returns the audit event ID of this tracker.
 	 *
-	 * @return the user tracker ID of this tracker
+	 * @return the audit event ID of this tracker
 	 */
-	public long getUserTrackerId();
+	public long getAuditEventId();
 
 	/**
-	 * Sets the user tracker ID of this tracker.
+	 * Sets the audit event ID of this tracker.
 	 *
-	 * @param userTrackerId the user tracker ID of this tracker
+	 * @param auditEventId the audit event ID of this tracker
 	 */
-	public void setUserTrackerId(long userTrackerId);
+	public void setAuditEventId(long auditEventId);
 
 	/**
 	 * Returns the company ID of this tracker.
@@ -107,6 +107,20 @@ public interface TrackerModel extends BaseModel<Tracker>, ShardedModel {
 	 */
 	@Override
 	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the create date of this tracker.
+	 *
+	 * @return the create date of this tracker
+	 */
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this tracker.
+	 *
+	 * @param createDate the create date of this tracker
+	 */
+	public void setCreateDate(Date createDate);
 
 	/**
 	 * Returns the user ID of this tracker.
@@ -137,93 +151,49 @@ public interface TrackerModel extends BaseModel<Tracker>, ShardedModel {
 	public void setUserUuid(String userUuid);
 
 	/**
-	 * Returns the screen name of this tracker.
+	 * Returns the user name of this tracker.
 	 *
-	 * @return the screen name of this tracker
+	 * @return the user name of this tracker
 	 */
 	@AutoEscape
-	public String getScreenName();
+	public String getUserName();
 
 	/**
-	 * Sets the screen name of this tracker.
+	 * Sets the user name of this tracker.
 	 *
-	 * @param screenName the screen name of this tracker
+	 * @param userName the user name of this tracker
 	 */
-	public void setScreenName(String screenName);
+	public void setUserName(String userName);
 
 	/**
-	 * Returns the modified date of this tracker.
+	 * Returns the client ip of this tracker.
 	 *
-	 * @return the modified date of this tracker
-	 */
-	public Date getModifiedDate();
-
-	/**
-	 * Sets the modified date of this tracker.
-	 *
-	 * @param modifiedDate the modified date of this tracker
-	 */
-	public void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * Returns the session ID of this tracker.
-	 *
-	 * @return the session ID of this tracker
+	 * @return the client ip of this tracker
 	 */
 	@AutoEscape
-	public String getSessionId();
+	public String getClientIP();
 
 	/**
-	 * Sets the session ID of this tracker.
+	 * Sets the client ip of this tracker.
 	 *
-	 * @param sessionId the session ID of this tracker
+	 * @param clientIP the client ip of this tracker
 	 */
-	public void setSessionId(String sessionId);
+	public void setClientIP(String clientIP);
 
 	/**
-	 * Returns the remote addr of this tracker.
+	 * Returns the event type of this tracker.
 	 *
-	 * @return the remote addr of this tracker
-	 */
-	@AutoEscape
-	public String getRemoteAddr();
-
-	/**
-	 * Sets the remote addr of this tracker.
-	 *
-	 * @param remoteAddr the remote addr of this tracker
-	 */
-	public void setRemoteAddr(String remoteAddr);
-
-	/**
-	 * Returns the remote host of this tracker.
-	 *
-	 * @return the remote host of this tracker
+	 * @return the event type of this tracker
 	 */
 	@AutoEscape
-	public String getRemoteHost();
+	public String getEventType();
 
 	/**
-	 * Sets the remote host of this tracker.
+	 * Sets the event type of this tracker.
 	 *
-	 * @param RemoteHost the remote host of this tracker
+	 * @param eventType the event type of this tracker
 	 */
-	public void setRemoteHost(String RemoteHost);
-
-	/**
-	 * Returns the user agent of this tracker.
-	 *
-	 * @return the user agent of this tracker
-	 */
-	@AutoEscape
-	public String getUserAgent();
-
-	/**
-	 * Sets the user agent of this tracker.
-	 *
-	 * @param userAgent the user agent of this tracker
-	 */
-	public void setUserAgent(String userAgent);
+	public void setEventType(String eventType);
 
 	@Override
 	public boolean isNew();

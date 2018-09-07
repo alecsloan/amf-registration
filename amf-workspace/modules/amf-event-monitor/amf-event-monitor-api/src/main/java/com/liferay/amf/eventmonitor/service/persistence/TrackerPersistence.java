@@ -147,13 +147,13 @@ public interface TrackerPersistence extends BasePersistence<Tracker> {
 	/**
 	* Returns the trackers before and after the current tracker in the ordered set where uuid = &#63;.
 	*
-	* @param userTrackerId the primary key of the current tracker
+	* @param auditEventId the primary key of the current tracker
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public Tracker[] findByUuid_PrevAndNext(long userTrackerId,
+	public Tracker[] findByUuid_PrevAndNext(long auditEventId,
 		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<Tracker> orderByComparator)
 		throws NoSuchTrackerException;
@@ -288,14 +288,14 @@ public interface TrackerPersistence extends BasePersistence<Tracker> {
 	/**
 	* Returns the trackers before and after the current tracker in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param userTrackerId the primary key of the current tracker
+	* @param auditEventId the primary key of the current tracker
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public Tracker[] findByUuid_C_PrevAndNext(long userTrackerId,
+	public Tracker[] findByUuid_C_PrevAndNext(long auditEventId,
 		java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<Tracker> orderByComparator)
 		throws NoSuchTrackerException;
@@ -334,39 +334,39 @@ public interface TrackerPersistence extends BasePersistence<Tracker> {
 	/**
 	* Creates a new tracker with the primary key. Does not add the tracker to the database.
 	*
-	* @param userTrackerId the primary key for the new tracker
+	* @param auditEventId the primary key for the new tracker
 	* @return the new tracker
 	*/
-	public Tracker create(long userTrackerId);
+	public Tracker create(long auditEventId);
 
 	/**
 	* Removes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker that was removed
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public Tracker remove(long userTrackerId) throws NoSuchTrackerException;
+	public Tracker remove(long auditEventId) throws NoSuchTrackerException;
 
 	public Tracker updateImpl(Tracker tracker);
 
 	/**
 	* Returns the tracker with the primary key or throws a {@link NoSuchTrackerException} if it could not be found.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker
 	* @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	*/
-	public Tracker findByPrimaryKey(long userTrackerId)
+	public Tracker findByPrimaryKey(long auditEventId)
 		throws NoSuchTrackerException;
 
 	/**
 	* Returns the tracker with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker, or <code>null</code> if a tracker with the primary key could not be found
 	*/
-	public Tracker fetchByPrimaryKey(long userTrackerId);
+	public Tracker fetchByPrimaryKey(long auditEventId);
 
 	@Override
 	public java.util.Map<java.io.Serializable, Tracker> fetchByPrimaryKeys(

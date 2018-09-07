@@ -36,6 +36,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.io.Serializable;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import java.util.List;
 
 /**
@@ -73,10 +76,10 @@ public interface TrackerLocalService extends BaseLocalService,
 	/**
 	* Creates a new tracker with the primary key. Does not add the tracker to the database.
 	*
-	* @param userTrackerId the primary key for the new tracker
+	* @param auditEventId the primary key for the new tracker
 	* @return the new tracker
 	*/
-	public Tracker createTracker(long userTrackerId);
+	public Tracker createTracker(long auditEventId);
 
 	/**
 	* Deletes the tracker from the database. Also notifies the appropriate model listeners.
@@ -90,15 +93,15 @@ public interface TrackerLocalService extends BaseLocalService,
 	/**
 	* Deletes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker that was removed
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public Tracker deleteTracker(long userTrackerId) throws PortalException;
+	public Tracker deleteTracker(long auditEventId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Tracker fetchTracker(long userTrackerId);
+	public Tracker fetchTracker(long auditEventId);
 
 	/**
 	* Returns the tracker with the matching UUID and company.
@@ -114,12 +117,12 @@ public interface TrackerLocalService extends BaseLocalService,
 	/**
 	* Returns the tracker with the primary key.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Tracker getTracker(long userTrackerId) throws PortalException;
+	public Tracker getTracker(long auditEventId) throws PortalException;
 
 	/**
 	* Returns the tracker with the matching UUID and company.
@@ -170,14 +173,15 @@ public interface TrackerLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getTrackersCount();
 
-	public java.lang.String addTracker();
-
 	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Tracker> getEvents(String eventType) throws SQLException, Exception;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.

@@ -92,25 +92,25 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Creates a new tracker with the primary key. Does not add the tracker to the database.
 	 *
-	 * @param userTrackerId the primary key for the new tracker
+	 * @param auditEventId the primary key for the new tracker
 	 * @return the new tracker
 	 */
 	@Override
-	public Tracker createTracker(long userTrackerId) {
-		return trackerPersistence.create(userTrackerId);
+	public Tracker createTracker(long auditEventId) {
+		return trackerPersistence.create(auditEventId);
 	}
 
 	/**
 	 * Deletes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param userTrackerId the primary key of the tracker
+	 * @param auditEventId the primary key of the tracker
 	 * @return the tracker that was removed
 	 * @throws PortalException if a tracker with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Tracker deleteTracker(long userTrackerId) throws PortalException {
-		return trackerPersistence.remove(userTrackerId);
+	public Tracker deleteTracker(long auditEventId) throws PortalException {
+		return trackerPersistence.remove(auditEventId);
 	}
 
 	/**
@@ -207,8 +207,8 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public Tracker fetchTracker(long userTrackerId) {
-		return trackerPersistence.fetchByPrimaryKey(userTrackerId);
+	public Tracker fetchTracker(long auditEventId) {
+		return trackerPersistence.fetchByPrimaryKey(auditEventId);
 	}
 
 	/**
@@ -226,13 +226,13 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Returns the tracker with the primary key.
 	 *
-	 * @param userTrackerId the primary key of the tracker
+	 * @param auditEventId the primary key of the tracker
 	 * @return the tracker
 	 * @throws PortalException if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker getTracker(long userTrackerId) throws PortalException {
-		return trackerPersistence.findByPrimaryKey(userTrackerId);
+	public Tracker getTracker(long auditEventId) throws PortalException {
+		return trackerPersistence.findByPrimaryKey(auditEventId);
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Tracker.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("userTrackerId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("auditEventId");
 
 		return actionableDynamicQuery;
 	}
@@ -257,7 +257,7 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 		indexableActionableDynamicQuery.setModelClass(Tracker.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"userTrackerId");
+			"auditEventId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -268,7 +268,7 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Tracker.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("userTrackerId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("auditEventId");
 	}
 
 	/**

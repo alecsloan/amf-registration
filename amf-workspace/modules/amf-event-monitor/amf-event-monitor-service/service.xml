@@ -8,27 +8,22 @@
 
 		<!-- PK fields -->
 
-		<column name="userTrackerId" primary="true" type="long" />
+		<column name="auditEventId" primary="true" type="long" />
 
 		<!-- Audit fields -->
 
 		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
 		<column name="userId" type="long" />
-		<column name="screenName" type="String" />
-		<column name="modifiedDate" type="Date" />
-
-		<!-- Other fields -->
-
-		<column name="sessionId" type="String" />
-		<column name="remoteAddr" type="String" />
-		<column name="RemoteHost" type="String" />
-		<column name="userAgent" type="String" />
-		<column name="userTrackerPaths" type="Collection" />
+		<column name="userName" type="String" />
+		<column name="clientIP" type="String" />
+		<column name="eventType" type="String" />
+		
 
 		<!-- Order -->
 
 		<order by="desc">
-			<order-column name="modifiedDate" />
+			<order-column name="createDate" />
 		</order>
 
 		<!-- Finder methods

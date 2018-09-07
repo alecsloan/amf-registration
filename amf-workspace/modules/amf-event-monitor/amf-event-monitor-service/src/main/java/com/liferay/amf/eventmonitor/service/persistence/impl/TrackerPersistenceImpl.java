@@ -104,7 +104,7 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
 			TrackerModelImpl.UUID_COLUMN_BITMASK |
-			TrackerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			TrackerModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(TrackerModelImpl.ENTITY_CACHE_ENABLED,
 			TrackerModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -395,17 +395,17 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Returns the trackers before and after the current tracker in the ordered set where uuid = &#63;.
 	 *
-	 * @param userTrackerId the primary key of the current tracker
+	 * @param auditEventId the primary key of the current tracker
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next tracker
 	 * @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker[] findByUuid_PrevAndNext(long userTrackerId, String uuid,
+	public Tracker[] findByUuid_PrevAndNext(long auditEventId, String uuid,
 		OrderByComparator<Tracker> orderByComparator)
 		throws NoSuchTrackerException {
-		Tracker tracker = findByPrimaryKey(userTrackerId);
+		Tracker tracker = findByPrimaryKey(auditEventId);
 
 		Session session = null;
 
@@ -649,7 +649,7 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 			new String[] { String.class.getName(), Long.class.getName() },
 			TrackerModelImpl.UUID_COLUMN_BITMASK |
 			TrackerModelImpl.COMPANYID_COLUMN_BITMASK |
-			TrackerModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			TrackerModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(TrackerModelImpl.ENTITY_CACHE_ENABLED,
 			TrackerModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
@@ -967,7 +967,7 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Returns the trackers before and after the current tracker in the ordered set where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param userTrackerId the primary key of the current tracker
+	 * @param auditEventId the primary key of the current tracker
 	 * @param uuid the uuid
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -975,10 +975,10 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	 * @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker[] findByUuid_C_PrevAndNext(long userTrackerId, String uuid,
+	public Tracker[] findByUuid_C_PrevAndNext(long auditEventId, String uuid,
 		long companyId, OrderByComparator<Tracker> orderByComparator)
 		throws NoSuchTrackerException {
-		Tracker tracker = findByPrimaryKey(userTrackerId);
+		Tracker tracker = findByPrimaryKey(auditEventId);
 
 		Session session = null;
 
@@ -1315,15 +1315,15 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Creates a new tracker with the primary key. Does not add the tracker to the database.
 	 *
-	 * @param userTrackerId the primary key for the new tracker
+	 * @param auditEventId the primary key for the new tracker
 	 * @return the new tracker
 	 */
 	@Override
-	public Tracker create(long userTrackerId) {
+	public Tracker create(long auditEventId) {
 		Tracker tracker = new TrackerImpl();
 
 		tracker.setNew(true);
-		tracker.setPrimaryKey(userTrackerId);
+		tracker.setPrimaryKey(auditEventId);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -1337,13 +1337,13 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Removes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param userTrackerId the primary key of the tracker
+	 * @param auditEventId the primary key of the tracker
 	 * @return the tracker that was removed
 	 * @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker remove(long userTrackerId) throws NoSuchTrackerException {
-		return remove((Serializable)userTrackerId);
+	public Tracker remove(long auditEventId) throws NoSuchTrackerException {
+		return remove((Serializable)auditEventId);
 	}
 
 	/**
@@ -1535,15 +1535,13 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 		trackerImpl.setPrimaryKey(tracker.getPrimaryKey());
 
 		trackerImpl.setUuid(tracker.getUuid());
-		trackerImpl.setUserTrackerId(tracker.getUserTrackerId());
+		trackerImpl.setAuditEventId(tracker.getAuditEventId());
 		trackerImpl.setCompanyId(tracker.getCompanyId());
+		trackerImpl.setCreateDate(tracker.getCreateDate());
 		trackerImpl.setUserId(tracker.getUserId());
-		trackerImpl.setScreenName(tracker.getScreenName());
-		trackerImpl.setModifiedDate(tracker.getModifiedDate());
-		trackerImpl.setSessionId(tracker.getSessionId());
-		trackerImpl.setRemoteAddr(tracker.getRemoteAddr());
-		trackerImpl.setRemoteHost(tracker.getRemoteHost());
-		trackerImpl.setUserAgent(tracker.getUserAgent());
+		trackerImpl.setUserName(tracker.getUserName());
+		trackerImpl.setClientIP(tracker.getClientIP());
+		trackerImpl.setEventType(tracker.getEventType());
 
 		return trackerImpl;
 	}
@@ -1575,14 +1573,14 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Returns the tracker with the primary key or throws a {@link NoSuchTrackerException} if it could not be found.
 	 *
-	 * @param userTrackerId the primary key of the tracker
+	 * @param auditEventId the primary key of the tracker
 	 * @return the tracker
 	 * @throws NoSuchTrackerException if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker findByPrimaryKey(long userTrackerId)
+	public Tracker findByPrimaryKey(long auditEventId)
 		throws NoSuchTrackerException {
-		return findByPrimaryKey((Serializable)userTrackerId);
+		return findByPrimaryKey((Serializable)auditEventId);
 	}
 
 	/**
@@ -1635,12 +1633,12 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	/**
 	 * Returns the tracker with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param userTrackerId the primary key of the tracker
+	 * @param auditEventId the primary key of the tracker
 	 * @return the tracker, or <code>null</code> if a tracker with the primary key could not be found
 	 */
 	@Override
-	public Tracker fetchByPrimaryKey(long userTrackerId) {
-		return fetchByPrimaryKey((Serializable)userTrackerId);
+	public Tracker fetchByPrimaryKey(long auditEventId) {
+		return fetchByPrimaryKey((Serializable)auditEventId);
 	}
 
 	@Override
@@ -1957,7 +1955,7 @@ public class TrackerPersistenceImpl extends BasePersistenceImpl<Tracker>
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_TRACKER = "SELECT tracker FROM Tracker tracker";
-	private static final String _SQL_SELECT_TRACKER_WHERE_PKS_IN = "SELECT tracker FROM Tracker tracker WHERE userTrackerId IN (";
+	private static final String _SQL_SELECT_TRACKER_WHERE_PKS_IN = "SELECT tracker FROM Tracker tracker WHERE auditEventId IN (";
 	private static final String _SQL_SELECT_TRACKER_WHERE = "SELECT tracker FROM Tracker tracker WHERE ";
 	private static final String _SQL_COUNT_TRACKER = "SELECT COUNT(tracker) FROM Tracker tracker";
 	private static final String _SQL_COUNT_TRACKER_WHERE = "SELECT COUNT(tracker) FROM Tracker tracker WHERE ";

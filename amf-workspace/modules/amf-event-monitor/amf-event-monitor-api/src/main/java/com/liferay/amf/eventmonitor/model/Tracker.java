@@ -37,10 +37,10 @@ public interface Tracker extends TrackerModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link com.liferay.amf.eventmonitor.model.impl.TrackerImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Tracker, Long> USER_TRACKER_ID_ACCESSOR = new Accessor<Tracker, Long>() {
+	public static final Accessor<Tracker, Long> AUDIT_EVENT_ID_ACCESSOR = new Accessor<Tracker, Long>() {
 			@Override
 			public Long get(Tracker tracker) {
-				return tracker.getUserTrackerId();
+				return tracker.getAuditEventId();
 			}
 
 			@Override

@@ -16,7 +16,11 @@ package com.liferay.amf.eventmonitor.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.amf.eventmonitor.model.Tracker;
 import com.liferay.osgi.util.ServiceTrackerFactory;
+
+import java.sql.ResultSet;
+import java.util.List;
 
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -56,12 +60,12 @@ public class TrackerLocalServiceUtil {
 	/**
 	* Creates a new tracker with the primary key. Does not add the tracker to the database.
 	*
-	* @param userTrackerId the primary key for the new tracker
+	* @param auditEventId the primary key for the new tracker
 	* @return the new tracker
 	*/
 	public static com.liferay.amf.eventmonitor.model.Tracker createTracker(
-		long userTrackerId) {
-		return getService().createTracker(userTrackerId);
+		long auditEventId) {
+		return getService().createTracker(auditEventId);
 	}
 
 	/**
@@ -78,19 +82,19 @@ public class TrackerLocalServiceUtil {
 	/**
 	* Deletes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker that was removed
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	public static com.liferay.amf.eventmonitor.model.Tracker deleteTracker(
-		long userTrackerId)
+		long auditEventId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().deleteTracker(userTrackerId);
+		return getService().deleteTracker(auditEventId);
 	}
 
 	public static com.liferay.amf.eventmonitor.model.Tracker fetchTracker(
-		long userTrackerId) {
-		return getService().fetchTracker(userTrackerId);
+		long auditEventId) {
+		return getService().fetchTracker(auditEventId);
 	}
 
 	/**
@@ -108,14 +112,14 @@ public class TrackerLocalServiceUtil {
 	/**
 	* Returns the tracker with the primary key.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	public static com.liferay.amf.eventmonitor.model.Tracker getTracker(
-		long userTrackerId)
+		long auditEventId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTracker(userTrackerId);
+		return getService().getTracker(auditEventId);
 	}
 
 	/**
@@ -179,10 +183,6 @@ public class TrackerLocalServiceUtil {
 		return getService().getTrackersCount();
 	}
 
-	public static java.lang.String addTracker() {
-		return getService().addTracker();
-	}
-
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -190,6 +190,10 @@ public class TrackerLocalServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static List<Tracker> getEvents(String eventType) throws Exception {
+		return getService().getEvents(eventType);
 	}
 
 	/**

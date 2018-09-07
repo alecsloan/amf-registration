@@ -72,35 +72,31 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 	public static final String TABLE_NAME = "EventMonitor_Tracker";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
-			{ "userTrackerId", Types.BIGINT },
+			{ "auditEventId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
+			{ "createDate", Types.TIMESTAMP },
 			{ "userId", Types.BIGINT },
-			{ "screenName", Types.VARCHAR },
-			{ "modifiedDate", Types.TIMESTAMP },
-			{ "sessionId", Types.VARCHAR },
-			{ "remoteAddr", Types.VARCHAR },
-			{ "RemoteHost", Types.VARCHAR },
-			{ "userAgent", Types.VARCHAR }
+			{ "userName", Types.VARCHAR },
+			{ "clientIP", Types.VARCHAR },
+			{ "eventType", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("userTrackerId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("auditEventId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("screenName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("sessionId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("remoteAddr", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("RemoteHost", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("userAgent", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("clientIP", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("eventType", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table EventMonitor_Tracker (uuid_ VARCHAR(75) null,userTrackerId LONG not null primary key,companyId LONG,userId LONG,screenName VARCHAR(75) null,modifiedDate DATE null,sessionId VARCHAR(75) null,remoteAddr VARCHAR(75) null,RemoteHost VARCHAR(75) null,userAgent VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table EventMonitor_Tracker (uuid_ VARCHAR(75) null,auditEventId LONG not null primary key,companyId LONG,createDate DATE null,userId LONG,userName VARCHAR(75) null,clientIP VARCHAR(75) null,eventType VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table EventMonitor_Tracker";
-	public static final String ORDER_BY_JPQL = " ORDER BY tracker.modifiedDate DESC";
-	public static final String ORDER_BY_SQL = " ORDER BY EventMonitor_Tracker.modifiedDate DESC";
+	public static final String ORDER_BY_JPQL = " ORDER BY tracker.createDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY EventMonitor_Tracker.createDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -115,7 +111,7 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 4L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -131,15 +127,13 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 		Tracker model = new TrackerImpl();
 
 		model.setUuid(soapModel.getUuid());
-		model.setUserTrackerId(soapModel.getUserTrackerId());
+		model.setAuditEventId(soapModel.getAuditEventId());
 		model.setCompanyId(soapModel.getCompanyId());
+		model.setCreateDate(soapModel.getCreateDate());
 		model.setUserId(soapModel.getUserId());
-		model.setScreenName(soapModel.getScreenName());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setSessionId(soapModel.getSessionId());
-		model.setRemoteAddr(soapModel.getRemoteAddr());
-		model.setRemoteHost(soapModel.getRemoteHost());
-		model.setUserAgent(soapModel.getUserAgent());
+		model.setUserName(soapModel.getUserName());
+		model.setClientIP(soapModel.getClientIP());
+		model.setEventType(soapModel.getEventType());
 
 		return model;
 	}
@@ -172,17 +166,17 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	@Override
 	public long getPrimaryKey() {
-		return _userTrackerId;
+		return _auditEventId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setUserTrackerId(primaryKey);
+		setAuditEventId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _userTrackerId;
+		return _auditEventId;
 	}
 
 	@Override
@@ -205,15 +199,13 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("userTrackerId", getUserTrackerId());
+		attributes.put("auditEventId", getAuditEventId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("createDate", getCreateDate());
 		attributes.put("userId", getUserId());
-		attributes.put("screenName", getScreenName());
-		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("sessionId", getSessionId());
-		attributes.put("remoteAddr", getRemoteAddr());
-		attributes.put("RemoteHost", getRemoteHost());
-		attributes.put("userAgent", getUserAgent());
+		attributes.put("userName", getUserName());
+		attributes.put("clientIP", getClientIP());
+		attributes.put("eventType", getEventType());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -229,10 +221,10 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 			setUuid(uuid);
 		}
 
-		Long userTrackerId = (Long)attributes.get("userTrackerId");
+		Long auditEventId = (Long)attributes.get("auditEventId");
 
-		if (userTrackerId != null) {
-			setUserTrackerId(userTrackerId);
+		if (auditEventId != null) {
+			setAuditEventId(auditEventId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -241,46 +233,34 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 			setCompanyId(companyId);
 		}
 
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
 		Long userId = (Long)attributes.get("userId");
 
 		if (userId != null) {
 			setUserId(userId);
 		}
 
-		String screenName = (String)attributes.get("screenName");
+		String userName = (String)attributes.get("userName");
 
-		if (screenName != null) {
-			setScreenName(screenName);
+		if (userName != null) {
+			setUserName(userName);
 		}
 
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
+		String clientIP = (String)attributes.get("clientIP");
 
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
+		if (clientIP != null) {
+			setClientIP(clientIP);
 		}
 
-		String sessionId = (String)attributes.get("sessionId");
+		String eventType = (String)attributes.get("eventType");
 
-		if (sessionId != null) {
-			setSessionId(sessionId);
-		}
-
-		String remoteAddr = (String)attributes.get("remoteAddr");
-
-		if (remoteAddr != null) {
-			setRemoteAddr(remoteAddr);
-		}
-
-		String RemoteHost = (String)attributes.get("RemoteHost");
-
-		if (RemoteHost != null) {
-			setRemoteHost(RemoteHost);
-		}
-
-		String userAgent = (String)attributes.get("userAgent");
-
-		if (userAgent != null) {
-			setUserAgent(userAgent);
+		if (eventType != null) {
+			setEventType(eventType);
 		}
 	}
 
@@ -310,13 +290,13 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	@JSON
 	@Override
-	public long getUserTrackerId() {
-		return _userTrackerId;
+	public long getAuditEventId() {
+		return _auditEventId;
 	}
 
 	@Override
-	public void setUserTrackerId(long userTrackerId) {
-		_userTrackerId = userTrackerId;
+	public void setAuditEventId(long auditEventId) {
+		_auditEventId = auditEventId;
 	}
 
 	@JSON
@@ -340,6 +320,19 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	public long getOriginalCompanyId() {
 		return _originalCompanyId;
+	}
+
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_columnBitmask = -1L;
+
+		_createDate = createDate;
 	}
 
 	@JSON
@@ -371,95 +364,50 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	@JSON
 	@Override
-	public String getScreenName() {
-		if (_screenName == null) {
+	public String getUserName() {
+		if (_userName == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _screenName;
+			return _userName;
 		}
 	}
 
 	@Override
-	public void setScreenName(String screenName) {
-		_screenName = screenName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	@JSON
 	@Override
-	public Date getModifiedDate() {
-		return _modifiedDate;
+	public String getClientIP() {
+		if (_clientIP == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _clientIP;
+		}
 	}
 
 	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_columnBitmask = -1L;
-
-		_modifiedDate = modifiedDate;
+	public void setClientIP(String clientIP) {
+		_clientIP = clientIP;
 	}
 
 	@JSON
 	@Override
-	public String getSessionId() {
-		if (_sessionId == null) {
+	public String getEventType() {
+		if (_eventType == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _sessionId;
+			return _eventType;
 		}
 	}
 
 	@Override
-	public void setSessionId(String sessionId) {
-		_sessionId = sessionId;
-	}
-
-	@JSON
-	@Override
-	public String getRemoteAddr() {
-		if (_remoteAddr == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _remoteAddr;
-		}
-	}
-
-	@Override
-	public void setRemoteAddr(String remoteAddr) {
-		_remoteAddr = remoteAddr;
-	}
-
-	@JSON
-	@Override
-	public String getRemoteHost() {
-		if (_RemoteHost == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _RemoteHost;
-		}
-	}
-
-	@Override
-	public void setRemoteHost(String RemoteHost) {
-		_RemoteHost = RemoteHost;
-	}
-
-	@JSON
-	@Override
-	public String getUserAgent() {
-		if (_userAgent == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _userAgent;
-		}
-	}
-
-	@Override
-	public void setUserAgent(String userAgent) {
-		_userAgent = userAgent;
+	public void setEventType(String eventType) {
+		_eventType = eventType;
 	}
 
 	public long getColumnBitmask() {
@@ -494,15 +442,13 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 		TrackerImpl trackerImpl = new TrackerImpl();
 
 		trackerImpl.setUuid(getUuid());
-		trackerImpl.setUserTrackerId(getUserTrackerId());
+		trackerImpl.setAuditEventId(getAuditEventId());
 		trackerImpl.setCompanyId(getCompanyId());
+		trackerImpl.setCreateDate(getCreateDate());
 		trackerImpl.setUserId(getUserId());
-		trackerImpl.setScreenName(getScreenName());
-		trackerImpl.setModifiedDate(getModifiedDate());
-		trackerImpl.setSessionId(getSessionId());
-		trackerImpl.setRemoteAddr(getRemoteAddr());
-		trackerImpl.setRemoteHost(getRemoteHost());
-		trackerImpl.setUserAgent(getUserAgent());
+		trackerImpl.setUserName(getUserName());
+		trackerImpl.setClientIP(getClientIP());
+		trackerImpl.setEventType(getEventType());
 
 		trackerImpl.resetOriginalValues();
 
@@ -513,7 +459,7 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 	public int compareTo(Tracker tracker) {
 		int value = 0;
 
-		value = DateUtil.compareTo(getModifiedDate(), tracker.getModifiedDate());
+		value = DateUtil.compareTo(getCreateDate(), tracker.getCreateDate());
 
 		value = value * -1;
 
@@ -586,59 +532,43 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 			trackerCacheModel.uuid = null;
 		}
 
-		trackerCacheModel.userTrackerId = getUserTrackerId();
+		trackerCacheModel.auditEventId = getAuditEventId();
 
 		trackerCacheModel.companyId = getCompanyId();
 
-		trackerCacheModel.userId = getUserId();
+		Date createDate = getCreateDate();
 
-		trackerCacheModel.screenName = getScreenName();
-
-		String screenName = trackerCacheModel.screenName;
-
-		if ((screenName != null) && (screenName.length() == 0)) {
-			trackerCacheModel.screenName = null;
-		}
-
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			trackerCacheModel.modifiedDate = modifiedDate.getTime();
+		if (createDate != null) {
+			trackerCacheModel.createDate = createDate.getTime();
 		}
 		else {
-			trackerCacheModel.modifiedDate = Long.MIN_VALUE;
+			trackerCacheModel.createDate = Long.MIN_VALUE;
 		}
 
-		trackerCacheModel.sessionId = getSessionId();
+		trackerCacheModel.userId = getUserId();
 
-		String sessionId = trackerCacheModel.sessionId;
+		trackerCacheModel.userName = getUserName();
 
-		if ((sessionId != null) && (sessionId.length() == 0)) {
-			trackerCacheModel.sessionId = null;
+		String userName = trackerCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			trackerCacheModel.userName = null;
 		}
 
-		trackerCacheModel.remoteAddr = getRemoteAddr();
+		trackerCacheModel.clientIP = getClientIP();
 
-		String remoteAddr = trackerCacheModel.remoteAddr;
+		String clientIP = trackerCacheModel.clientIP;
 
-		if ((remoteAddr != null) && (remoteAddr.length() == 0)) {
-			trackerCacheModel.remoteAddr = null;
+		if ((clientIP != null) && (clientIP.length() == 0)) {
+			trackerCacheModel.clientIP = null;
 		}
 
-		trackerCacheModel.RemoteHost = getRemoteHost();
+		trackerCacheModel.eventType = getEventType();
 
-		String RemoteHost = trackerCacheModel.RemoteHost;
+		String eventType = trackerCacheModel.eventType;
 
-		if ((RemoteHost != null) && (RemoteHost.length() == 0)) {
-			trackerCacheModel.RemoteHost = null;
-		}
-
-		trackerCacheModel.userAgent = getUserAgent();
-
-		String userAgent = trackerCacheModel.userAgent;
-
-		if ((userAgent != null) && (userAgent.length() == 0)) {
-			trackerCacheModel.userAgent = null;
+		if ((eventType != null) && (eventType.length() == 0)) {
+			trackerCacheModel.eventType = null;
 		}
 
 		return trackerCacheModel;
@@ -646,28 +576,24 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
-		sb.append(", userTrackerId=");
-		sb.append(getUserTrackerId());
+		sb.append(", auditEventId=");
+		sb.append(getAuditEventId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
 		sb.append(", userId=");
 		sb.append(getUserId());
-		sb.append(", screenName=");
-		sb.append(getScreenName());
-		sb.append(", modifiedDate=");
-		sb.append(getModifiedDate());
-		sb.append(", sessionId=");
-		sb.append(getSessionId());
-		sb.append(", remoteAddr=");
-		sb.append(getRemoteAddr());
-		sb.append(", RemoteHost=");
-		sb.append(getRemoteHost());
-		sb.append(", userAgent=");
-		sb.append(getUserAgent());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", clientIP=");
+		sb.append(getClientIP());
+		sb.append(", eventType=");
+		sb.append(getEventType());
 		sb.append("}");
 
 		return sb.toString();
@@ -675,7 +601,7 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.amf.eventmonitor.model.Tracker");
@@ -686,40 +612,32 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 		sb.append(getUuid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>userTrackerId</column-name><column-value><![CDATA[");
-		sb.append(getUserTrackerId());
+			"<column><column-name>auditEventId</column-name><column-value><![CDATA[");
+		sb.append(getAuditEventId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
 		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>userId</column-name><column-value><![CDATA[");
 		sb.append(getUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>screenName</column-name><column-value><![CDATA[");
-		sb.append(getScreenName());
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
-		sb.append(getModifiedDate());
+			"<column><column-name>clientIP</column-name><column-value><![CDATA[");
+		sb.append(getClientIP());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sessionId</column-name><column-value><![CDATA[");
-		sb.append(getSessionId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>remoteAddr</column-name><column-value><![CDATA[");
-		sb.append(getRemoteAddr());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>RemoteHost</column-name><column-value><![CDATA[");
-		sb.append(getRemoteHost());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>userAgent</column-name><column-value><![CDATA[");
-		sb.append(getUserAgent());
+			"<column><column-name>eventType</column-name><column-value><![CDATA[");
+		sb.append(getEventType());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -733,17 +651,15 @@ public class TrackerModelImpl extends BaseModelImpl<Tracker>
 		};
 	private String _uuid;
 	private String _originalUuid;
-	private long _userTrackerId;
+	private long _auditEventId;
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
+	private Date _createDate;
 	private long _userId;
-	private String _screenName;
-	private Date _modifiedDate;
-	private String _sessionId;
-	private String _remoteAddr;
-	private String _RemoteHost;
-	private String _userAgent;
+	private String _userName;
+	private String _clientIP;
+	private String _eventType;
 	private long _columnBitmask;
 	private Tracker _escapedModel;
 }

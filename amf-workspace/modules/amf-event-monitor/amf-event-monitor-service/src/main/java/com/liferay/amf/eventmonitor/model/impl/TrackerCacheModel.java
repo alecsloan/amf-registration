@@ -51,7 +51,7 @@ public class TrackerCacheModel implements CacheModel<Tracker>, Externalizable {
 
 		TrackerCacheModel trackerCacheModel = (TrackerCacheModel)obj;
 
-		if (userTrackerId == trackerCacheModel.userTrackerId) {
+		if (auditEventId == trackerCacheModel.auditEventId) {
 			return true;
 		}
 
@@ -60,33 +60,29 @@ public class TrackerCacheModel implements CacheModel<Tracker>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, userTrackerId);
+		return HashUtil.hash(0, auditEventId);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", userTrackerId=");
-		sb.append(userTrackerId);
+		sb.append(", auditEventId=");
+		sb.append(auditEventId);
 		sb.append(", companyId=");
 		sb.append(companyId);
+		sb.append(", createDate=");
+		sb.append(createDate);
 		sb.append(", userId=");
 		sb.append(userId);
-		sb.append(", screenName=");
-		sb.append(screenName);
-		sb.append(", modifiedDate=");
-		sb.append(modifiedDate);
-		sb.append(", sessionId=");
-		sb.append(sessionId);
-		sb.append(", remoteAddr=");
-		sb.append(remoteAddr);
-		sb.append(", RemoteHost=");
-		sb.append(RemoteHost);
-		sb.append(", userAgent=");
-		sb.append(userAgent);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", clientIP=");
+		sb.append(clientIP);
+		sb.append(", eventType=");
+		sb.append(eventType);
 		sb.append("}");
 
 		return sb.toString();
@@ -103,50 +99,37 @@ public class TrackerCacheModel implements CacheModel<Tracker>, Externalizable {
 			trackerImpl.setUuid(uuid);
 		}
 
-		trackerImpl.setUserTrackerId(userTrackerId);
+		trackerImpl.setAuditEventId(auditEventId);
 		trackerImpl.setCompanyId(companyId);
+
+		if (createDate == Long.MIN_VALUE) {
+			trackerImpl.setCreateDate(null);
+		}
+		else {
+			trackerImpl.setCreateDate(new Date(createDate));
+		}
+
 		trackerImpl.setUserId(userId);
 
-		if (screenName == null) {
-			trackerImpl.setScreenName(StringPool.BLANK);
+		if (userName == null) {
+			trackerImpl.setUserName(StringPool.BLANK);
 		}
 		else {
-			trackerImpl.setScreenName(screenName);
+			trackerImpl.setUserName(userName);
 		}
 
-		if (modifiedDate == Long.MIN_VALUE) {
-			trackerImpl.setModifiedDate(null);
+		if (clientIP == null) {
+			trackerImpl.setClientIP(StringPool.BLANK);
 		}
 		else {
-			trackerImpl.setModifiedDate(new Date(modifiedDate));
+			trackerImpl.setClientIP(clientIP);
 		}
 
-		if (sessionId == null) {
-			trackerImpl.setSessionId(StringPool.BLANK);
+		if (eventType == null) {
+			trackerImpl.setEventType(StringPool.BLANK);
 		}
 		else {
-			trackerImpl.setSessionId(sessionId);
-		}
-
-		if (remoteAddr == null) {
-			trackerImpl.setRemoteAddr(StringPool.BLANK);
-		}
-		else {
-			trackerImpl.setRemoteAddr(remoteAddr);
-		}
-
-		if (RemoteHost == null) {
-			trackerImpl.setRemoteHost(StringPool.BLANK);
-		}
-		else {
-			trackerImpl.setRemoteHost(RemoteHost);
-		}
-
-		if (userAgent == null) {
-			trackerImpl.setUserAgent(StringPool.BLANK);
-		}
-		else {
-			trackerImpl.setUserAgent(userAgent);
+			trackerImpl.setEventType(eventType);
 		}
 
 		trackerImpl.resetOriginalValues();
@@ -158,17 +141,15 @@ public class TrackerCacheModel implements CacheModel<Tracker>, Externalizable {
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		userTrackerId = objectInput.readLong();
+		auditEventId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
+		createDate = objectInput.readLong();
 
 		userId = objectInput.readLong();
-		screenName = objectInput.readUTF();
-		modifiedDate = objectInput.readLong();
-		sessionId = objectInput.readUTF();
-		remoteAddr = objectInput.readUTF();
-		RemoteHost = objectInput.readUTF();
-		userAgent = objectInput.readUTF();
+		userName = objectInput.readUTF();
+		clientIP = objectInput.readUTF();
+		eventType = objectInput.readUTF();
 	}
 
 	@Override
@@ -181,58 +162,41 @@ public class TrackerCacheModel implements CacheModel<Tracker>, Externalizable {
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(userTrackerId);
+		objectOutput.writeLong(auditEventId);
 
 		objectOutput.writeLong(companyId);
+		objectOutput.writeLong(createDate);
 
 		objectOutput.writeLong(userId);
 
-		if (screenName == null) {
+		if (userName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(screenName);
+			objectOutput.writeUTF(userName);
 		}
 
-		objectOutput.writeLong(modifiedDate);
-
-		if (sessionId == null) {
+		if (clientIP == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(sessionId);
+			objectOutput.writeUTF(clientIP);
 		}
 
-		if (remoteAddr == null) {
+		if (eventType == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(remoteAddr);
-		}
-
-		if (RemoteHost == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(RemoteHost);
-		}
-
-		if (userAgent == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(userAgent);
+			objectOutput.writeUTF(eventType);
 		}
 	}
 
 	public String uuid;
-	public long userTrackerId;
+	public long auditEventId;
 	public long companyId;
+	public long createDate;
 	public long userId;
-	public String screenName;
-	public long modifiedDate;
-	public String sessionId;
-	public String remoteAddr;
-	public String RemoteHost;
-	public String userAgent;
+	public String userName;
+	public String clientIP;
+	public String eventType;
 }

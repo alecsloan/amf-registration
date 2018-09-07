@@ -16,7 +16,11 @@ package com.liferay.amf.eventmonitor.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.amf.eventmonitor.model.Tracker;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * Provides a wrapper for {@link TrackerLocalService}.
@@ -47,13 +51,13 @@ public class TrackerLocalServiceWrapper implements TrackerLocalService,
 	/**
 	* Creates a new tracker with the primary key. Does not add the tracker to the database.
 	*
-	* @param userTrackerId the primary key for the new tracker
+	* @param auditEventId the primary key for the new tracker
 	* @return the new tracker
 	*/
 	@Override
 	public com.liferay.amf.eventmonitor.model.Tracker createTracker(
-		long userTrackerId) {
-		return _trackerLocalService.createTracker(userTrackerId);
+		long auditEventId) {
+		return _trackerLocalService.createTracker(auditEventId);
 	}
 
 	/**
@@ -71,21 +75,21 @@ public class TrackerLocalServiceWrapper implements TrackerLocalService,
 	/**
 	* Deletes the tracker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker that was removed
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	@Override
 	public com.liferay.amf.eventmonitor.model.Tracker deleteTracker(
-		long userTrackerId)
+		long auditEventId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _trackerLocalService.deleteTracker(userTrackerId);
+		return _trackerLocalService.deleteTracker(auditEventId);
 	}
 
 	@Override
 	public com.liferay.amf.eventmonitor.model.Tracker fetchTracker(
-		long userTrackerId) {
-		return _trackerLocalService.fetchTracker(userTrackerId);
+		long auditEventId) {
+		return _trackerLocalService.fetchTracker(auditEventId);
 	}
 
 	/**
@@ -105,15 +109,15 @@ public class TrackerLocalServiceWrapper implements TrackerLocalService,
 	/**
 	* Returns the tracker with the primary key.
 	*
-	* @param userTrackerId the primary key of the tracker
+	* @param auditEventId the primary key of the tracker
 	* @return the tracker
 	* @throws PortalException if a tracker with the primary key could not be found
 	*/
 	@Override
 	public com.liferay.amf.eventmonitor.model.Tracker getTracker(
-		long userTrackerId)
+		long auditEventId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _trackerLocalService.getTracker(userTrackerId);
+		return _trackerLocalService.getTracker(auditEventId);
 	}
 
 	/**
@@ -185,11 +189,6 @@ public class TrackerLocalServiceWrapper implements TrackerLocalService,
 		return _trackerLocalService.getTrackersCount();
 	}
 
-	@Override
-	public java.lang.String addTracker() {
-		return _trackerLocalService.addTracker();
-	}
-
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -198,6 +197,11 @@ public class TrackerLocalServiceWrapper implements TrackerLocalService,
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _trackerLocalService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public List<Tracker> getEvents(String eventType) throws Exception {
+		return _trackerLocalService.getEvents(eventType);
 	}
 
 	/**

@@ -35,15 +35,13 @@ public class TrackerSoap implements Serializable {
 		TrackerSoap soapModel = new TrackerSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setUserTrackerId(model.getUserTrackerId());
+		soapModel.setAuditEventId(model.getAuditEventId());
 		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setUserId(model.getUserId());
-		soapModel.setScreenName(model.getScreenName());
-		soapModel.setModifiedDate(model.getModifiedDate());
-		soapModel.setSessionId(model.getSessionId());
-		soapModel.setRemoteAddr(model.getRemoteAddr());
-		soapModel.setRemoteHost(model.getRemoteHost());
-		soapModel.setUserAgent(model.getUserAgent());
+		soapModel.setUserName(model.getUserName());
+		soapModel.setClientIP(model.getClientIP());
+		soapModel.setEventType(model.getEventType());
 
 		return soapModel;
 	}
@@ -89,11 +87,11 @@ public class TrackerSoap implements Serializable {
 	}
 
 	public long getPrimaryKey() {
-		return _userTrackerId;
+		return _auditEventId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setUserTrackerId(pk);
+		setAuditEventId(pk);
 	}
 
 	public String getUuid() {
@@ -104,12 +102,12 @@ public class TrackerSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getUserTrackerId() {
-		return _userTrackerId;
+	public long getAuditEventId() {
+		return _auditEventId;
 	}
 
-	public void setUserTrackerId(long userTrackerId) {
-		_userTrackerId = userTrackerId;
+	public void setAuditEventId(long auditEventId) {
+		_auditEventId = auditEventId;
 	}
 
 	public long getCompanyId() {
@@ -120,6 +118,14 @@ public class TrackerSoap implements Serializable {
 		_companyId = companyId;
 	}
 
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
 	public long getUserId() {
 		return _userId;
 	}
@@ -128,62 +134,36 @@ public class TrackerSoap implements Serializable {
 		_userId = userId;
 	}
 
-	public String getScreenName() {
-		return _screenName;
+	public String getUserName() {
+		return _userName;
 	}
 
-	public void setScreenName(String screenName) {
-		_screenName = screenName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
-	public Date getModifiedDate() {
-		return _modifiedDate;
+	public String getClientIP() {
+		return _clientIP;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
-		_modifiedDate = modifiedDate;
+	public void setClientIP(String clientIP) {
+		_clientIP = clientIP;
 	}
 
-	public String getSessionId() {
-		return _sessionId;
+	public String getEventType() {
+		return _eventType;
 	}
 
-	public void setSessionId(String sessionId) {
-		_sessionId = sessionId;
-	}
-
-	public String getRemoteAddr() {
-		return _remoteAddr;
-	}
-
-	public void setRemoteAddr(String remoteAddr) {
-		_remoteAddr = remoteAddr;
-	}
-
-	public String getRemoteHost() {
-		return _RemoteHost;
-	}
-
-	public void setRemoteHost(String RemoteHost) {
-		_RemoteHost = RemoteHost;
-	}
-
-	public String getUserAgent() {
-		return _userAgent;
-	}
-
-	public void setUserAgent(String userAgent) {
-		_userAgent = userAgent;
+	public void setEventType(String eventType) {
+		_eventType = eventType;
 	}
 
 	private String _uuid;
-	private long _userTrackerId;
+	private long _auditEventId;
 	private long _companyId;
+	private Date _createDate;
 	private long _userId;
-	private String _screenName;
-	private Date _modifiedDate;
-	private String _sessionId;
-	private String _remoteAddr;
-	private String _RemoteHost;
-	private String _userAgent;
+	private String _userName;
+	private String _clientIP;
+	private String _eventType;
 }

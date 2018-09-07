@@ -49,7 +49,11 @@ public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 
 		Statement stmt = conn.createStatement();
 
-		String sql = "SELECT * FROM lportal.Audit_AuditEvent where eventType in (" + eventType + ") AND className = 'com.liferay.portal.kernel.model.User'";
+		String sql = "SELECT auditEventId, clientIP, eventType, additionalInfo, Audit_AuditEvent.createDate, User_.screenName, User_.companyId, User_.userId, User_.screenName\n" + 
+				"FROM lportal.Audit_AuditEvent\n" + 
+				"LEFT JOIN lportal.User_ on Audit_AuditEvent.userId = User_.userId\n" + 
+				"where eventType in ("+ eventType +") "
+						+ "AND className = \"com.liferay.portal.kernel.model.User\";";
     
 		ResultSet rs = stmt.executeQuery(sql);
 		
@@ -59,19 +63,28 @@ public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 		while (rs.next()) {
 			event = TrackerLocalServiceUtil.createTracker(rs.getLong("auditEventId"));
 			
+			//If the event doesn't have a userId then its a registration
 			if (rs.getLong("userID") == 0) {
+				//Info for new users is stored in the additionalInfo column, so we need to parse the string to a map
 				HashMap<String, String> newUser = stringToHash(rs.getString("additionalInfo"));
 				
 				event.setUserId(Long.parseLong(newUser.get("userId")));
-				event.setUserName(newUser.get("userName"));
+				event.setUserName(newUser.get("screenName"));
 				event.setEventType("REGISTRATION");
 				event.setClientIP("0.0.0.0");
 				
 			}else {
+				//Handle the singular case of the default user being created:
+				if (rs.getString("eventType").equals("ADD")) {
+					event.setEventType("REGISTRATION");
+					event.setClientIP(rs.getString("0.0.0.0"));
+				} else {
+					event.setEventType("LOGIN");
+					event.setClientIP(rs.getString("clientIP"));
+				}
+				
 				event.setUserId(rs.getLong("userId"));
-				event.setUserName(rs.getString("userName"));
-				event.setEventType(rs.getString("eventType"));
-				event.setClientIP(rs.getString("clientIP"));
+				event.setUserName(rs.getString("screenName"));
 			
 			}
 			event.setCompanyId(rs.getLong("companyId"));

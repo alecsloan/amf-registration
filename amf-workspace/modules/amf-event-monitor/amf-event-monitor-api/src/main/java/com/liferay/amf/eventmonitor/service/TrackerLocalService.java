@@ -36,7 +36,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.io.Serializable;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -180,9 +179,6 @@ public interface TrackerLocalService extends BaseLocalService,
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Tracker> getEvents(String eventType) throws SQLException, Exception;
-
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
@@ -221,6 +217,10 @@ public interface TrackerLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Tracker> getEvents(java.lang.String eventType)
+		throws SQLException;
 
 	/**
 	* Returns a range of all the trackers.

@@ -6,7 +6,7 @@ String eventType = (String)renderRequest.getAttribute("eventType");
 %>
 <liferay-portlet:actionURL name="tab" var="tabURL" />
 
-<aui:form action="<%= tabURL %>" method="post" name="fm" cssClass="eventForm">
+<aui:form action="${tabURL}" method="post" name="fm" cssClass="eventForm">
 	<aui:button type="submit" cssClass="event ALL" value="All" onClick="setHidden('ALL')"/>
 	<aui:button type="submit" cssClass="event ADD" value="Registration" onClick="setHidden('ADD')"/>
 	<aui:button type="submit" cssClass="event LOGIN" value="Login" onClick="setHidden('LOGIN')"/>	
@@ -36,11 +36,6 @@ Currently Viewing: ${eventType}
 		
 	function setHidden(event){
 
-		try{
-			document.getElementsByClassName(event)[0].classList.add("disabled");
-		}catch(error){
-			
-		}
 		document.getElementsByClassName('eventType')[0].value = event;
 		
 	}

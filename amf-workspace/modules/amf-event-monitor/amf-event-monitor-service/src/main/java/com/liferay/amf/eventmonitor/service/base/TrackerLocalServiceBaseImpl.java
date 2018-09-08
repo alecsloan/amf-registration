@@ -20,9 +20,6 @@ import com.liferay.amf.eventmonitor.model.Tracker;
 import com.liferay.amf.eventmonitor.service.TrackerLocalService;
 import com.liferay.amf.eventmonitor.service.persistence.TrackerPersistence;
 
-import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
-import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -487,81 +484,6 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 		this.userPersistence = userPersistence;
 	}
 
-	/**
-	 * Returns the asset entry local service.
-	 *
-	 * @return the asset entry local service
-	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
-		return assetEntryLocalService;
-	}
-
-	/**
-	 * Sets the asset entry local service.
-	 *
-	 * @param assetEntryLocalService the asset entry local service
-	 */
-	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
-		this.assetEntryLocalService = assetEntryLocalService;
-	}
-
-	/**
-	 * Returns the asset entry persistence.
-	 *
-	 * @return the asset entry persistence
-	 */
-	public AssetEntryPersistence getAssetEntryPersistence() {
-		return assetEntryPersistence;
-	}
-
-	/**
-	 * Sets the asset entry persistence.
-	 *
-	 * @param assetEntryPersistence the asset entry persistence
-	 */
-	public void setAssetEntryPersistence(
-		AssetEntryPersistence assetEntryPersistence) {
-		this.assetEntryPersistence = assetEntryPersistence;
-	}
-
-	/**
-	 * Returns the asset tag local service.
-	 *
-	 * @return the asset tag local service
-	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
-		return assetTagLocalService;
-	}
-
-	/**
-	 * Sets the asset tag local service.
-	 *
-	 * @param assetTagLocalService the asset tag local service
-	 */
-	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
-		this.assetTagLocalService = assetTagLocalService;
-	}
-
-	/**
-	 * Returns the asset tag persistence.
-	 *
-	 * @return the asset tag persistence
-	 */
-	public AssetTagPersistence getAssetTagPersistence() {
-		return assetTagPersistence;
-	}
-
-	/**
-	 * Sets the asset tag persistence.
-	 *
-	 * @param assetTagPersistence the asset tag persistence
-	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
-		this.assetTagPersistence = assetTagPersistence;
-	}
-
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register("com.liferay.amf.eventmonitor.model.Tracker",
 			trackerLocalService);
@@ -630,14 +552,6 @@ public abstract class TrackerLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
-	@ServiceReference(type = AssetEntryPersistence.class)
-	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
-	@ServiceReference(type = AssetTagPersistence.class)
-	protected AssetTagPersistence assetTagPersistence;
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
 }

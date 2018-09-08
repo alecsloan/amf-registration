@@ -16,11 +16,7 @@ package com.liferay.amf.eventmonitor.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.amf.eventmonitor.model.Tracker;
 import com.liferay.osgi.util.ServiceTrackerFactory;
-
-import java.sql.ResultSet;
-import java.util.List;
 
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -192,10 +188,6 @@ public class TrackerLocalServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static List<Tracker> getEvents(String eventType) throws Exception {
-		return getService().getEvents(eventType);
-	}
-
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
@@ -244,6 +236,11 @@ public class TrackerLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.amf.eventmonitor.model.Tracker> getEvents(
+		java.lang.String eventType) throws java.sql.SQLException {
+		return getService().getEvents(eventType);
 	}
 
 	/**

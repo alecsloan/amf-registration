@@ -15,7 +15,6 @@
 package com.liferay.amf.eventmonitor.service.impl;
 
 import com.liferay.amf.eventmonitor.model.Tracker;
-import com.liferay.amf.eventmonitor.service.TrackerLocalServiceUtil;
 import com.liferay.amf.eventmonitor.service.base.TrackerLocalServiceBaseImpl;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 
@@ -23,10 +22,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The implementation of the tracker local service.
@@ -45,6 +44,8 @@ import java.util.Map;
 public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 	
 	public List<Tracker> getEvents(String eventType) throws SQLException {
+		SimpleDateFormat dateTime = new SimpleDateFormat ("E, MMMM Y 'at' hh:mm:ss a");
+		
 		Connection conn = DataAccess.getConnection();
 
 		Statement stmt = conn.createStatement();
@@ -61,7 +62,7 @@ public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 		Tracker event = null;
 		
 		while (rs.next()) {
-			event = TrackerLocalServiceUtil.createTracker(rs.getLong("auditEventId"));
+			event = createTracker(rs.getLong("auditEventId"));
 			
 			//If the event doesn't have a userId then its a registration
 			if (rs.getLong("userID") == 0) {
@@ -77,7 +78,7 @@ public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 				//Handle the singular case of the default user being created:
 				if (rs.getString("eventType").equals("ADD")) {
 					event.setEventType("REGISTRATION");
-					event.setClientIP(rs.getString("0.0.0.0"));
+					event.setClientIP("0.0.0.0");
 				} else {
 					event.setEventType("LOGIN");
 					event.setClientIP(rs.getString("clientIP"));
@@ -88,7 +89,9 @@ public class TrackerLocalServiceImpl extends TrackerLocalServiceBaseImpl {
 			
 			}
 			event.setCompanyId(rs.getLong("companyId"));
-			event.setCreateDate(rs.getDate("createDate"));
+			event.setCreateDate(rs.getTimestamp("createDate"));
+			
+			System.out.println(dateTime.format(event.getCreateDate()));
 			
 			eventList.add(event);
 		}

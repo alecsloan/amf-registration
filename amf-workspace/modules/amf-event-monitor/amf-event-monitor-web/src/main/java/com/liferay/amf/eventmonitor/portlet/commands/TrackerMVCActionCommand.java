@@ -4,13 +4,15 @@ package com.liferay.amf.eventmonitor.portlet.commands;
 
 import com.liferay.amf.eventmonitor.constants.EventMonitorPortletKeys;
 import com.liferay.amf.eventmonitor.model.Tracker;
-import com.liferay.amf.eventmonitor.service.TrackerLocalServiceUtil;
+import com.liferay.amf.eventmonitor.service.TrackerLocalService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -18,6 +20,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Liferay
@@ -36,7 +39,6 @@ import org.osgi.service.component.annotations.Component;
 		public void doProcessAction(
 				ActionRequest actionRequest, ActionResponse actionResponse)
 			throws PortletException, SQLException {
-			
 			String eventType = ParamUtil.getString(actionRequest, "eventType");
 			String eventClause = "'Login', 'ADD'";
 			
@@ -50,7 +52,7 @@ import org.osgi.service.component.annotations.Component;
 			}
 			
 			try {
-				List<Tracker> eventList = TrackerLocalServiceUtil.getEvents(eventClause);
+				List<Tracker> eventList = _trackerLocalService.getEvents(eventClause);
 				
 				actionRequest.setAttribute("events",eventList);
 				
@@ -67,6 +69,6 @@ import org.osgi.service.component.annotations.Component;
 			SessionMessages.add(actionRequest, "greetingMessage", "hi");
 		}
 		
-		
-
+		@Reference 
+		protected TrackerLocalService _trackerLocalService;
 	}
